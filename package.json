@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "netmon": "^0.0.3",
+    "nodemon": "^3.1.9",
     "supertest": "^6.3.4",
     "tap": "^18.6.1"
   },
