@@ -58,7 +58,7 @@ router.get("/api/v1/tasks",(req,res) =>{
     res.send(tasks);
 });
 
-router.get("/api/v1/tasks/:id",(req, res) =>{
+router.get("/tasks/:id",(req, res) =>{
     const id = parseInt(req.params.id);
     if(!tasks[id-1]){
         return res.status(404).send({message :"The task with the given ID was not found"});

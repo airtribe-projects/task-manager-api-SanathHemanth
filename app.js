@@ -16,9 +16,9 @@ const logger = (req,res,next) =>{
 app.use(logger);
 app.use(taskRouter);
 
-app.get('/',(req,res) =>{
-    res.send("Hey");
-});
+//app.get('/',(req,res) =>{
+//    res.send("Hey");
+//});
 
 app.listen(port, (err) => {
     if (err) {
