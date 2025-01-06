@@ -1,7 +1,6 @@
 const tap = require("tap");
 const supertest = require("supertest");
 const app = require("../app");
-const { text } = require("express");
 const server = supertest(app);
 
 tap.test("POST /tasks", async (t) => {
@@ -38,8 +37,6 @@ tap.test("GET /tasks", async (t) => {
   t.end();
 });
 
-
-
 tap.test("GET /tasks/:id", async (t) => {
   const response = await server.get("/tasks/1");
   t.equal(response.status, 200);
@@ -53,16 +50,8 @@ tap.test("GET /tasks/:id", async (t) => {
   t.end();
 });
 
-tap.test("GET /tasks/:id text", async (t) => {
-  const text = "text";
-  t.equal(text, "text");
-  t.end();
-});
-
 tap.test("GET /tasks/:id with invalid id", async (t) => {
-  console.log("text");
   const response = await server.get("/tasks/999");
-  console.log(response);
   t.equal(response.status, 404);
   t.end();
 });

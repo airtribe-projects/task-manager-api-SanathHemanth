@@ -7,7 +7,7 @@ const tasks = [
         id : 1,
         title: "Set up environment",
         description: "Install Node.js, npm, and git",
-        completed: true
+        completed: true,
     },
     {
         id : 2,
@@ -54,7 +54,7 @@ const tasks = [
 
 ]
 
-router.get("/api/v1/tasks",(req,res) =>{
+router.get("/tasks",(req,res) =>{
     res.send(tasks);
 });
 
@@ -63,15 +63,48 @@ router.get("/tasks/:id",(req, res) =>{
     if(!tasks[id-1]){
         return res.status(404).send({message :"The task with the given ID was not found"});
     }
-    res.send(tasks[id-1]);
+    res.status(200).send(tasks[id-1]);
 });
 
-router.post("/api/v1/tasks",(req,res) =>{
+router.post("/tasks",(req,res) =>{
     const task = req.body;
-    console.log({task});
-    task.id = tasks.length+1;
-    tasks.push(task);
-    res.send({task});
+    //console.log(task);
+    if(!task.description || !task.title || task.completed==undefined){
+        res.status(400).send({message : "Invalid data"});
+    }
+    else{
+        console.log({task});
+        const len = tasks.length;
+        task.id = tasks[len-1].id+1;
+        tasks.push(task);
+        res.status(201).send({task});
+    }
+
+});
+
+router.put("/tasks/:id",(req,res)=>{
+    const id = parseInt(req.params.id);
+    if(!tasks[id-1]){
+        return res.status(404).send({message :"The task with the given ID was not found"});
+    }
+    const task = req.body;
+    if(typeof(task.title)!="string" || typeof(task.description)!="string" || typeof(task.completed)!="boolean"){
+        return res.status(400).send({message : "Invalid data"});
+    }
+    task.id = id;
+    tasks[id-1]=task;
+    res.status(200).send({task});
+});
+
+router.delete("/tasks/:id",(req,res)=>{
+    const id = parseInt(req.params.id);
+    //console.log(id);
+    const taskIndex = tasks.findIndex(task=> task.id === id);
+    if(taskIndex==-1){
+        res.status(404).send("Invalid ID");
+    }
+    tasks.splice(taskIndex,1);
+    res.status(200).send({message:"Task deleted"});
 });
 
 module.exports = router;
