@@ -98,7 +98,6 @@ router.put("/tasks/:id",(req,res)=>{
 
 router.delete("/tasks/:id",(req,res)=>{
     const id = parseInt(req.params.id);
-    //console.log(id);
     const taskIndex = tasks.findIndex(task=> task.id === id);
     if(taskIndex==-1){
         res.status(404).send("Invalid ID");
